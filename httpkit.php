@@ -79,10 +79,15 @@ class httpKit {
                     error_log("POST: {$argsPost}");
                 }
             }
-            $rawData     = @trim(curl_exec($objCurl));
-            $intHttpCode = @curl_getinfo($objCurl, CURLINFO_HTTP_CODE);
+            $rawData        = @trim(curl_exec($objCurl));
+            $intHttpCode    = @curl_getinfo($objCurl, CURLINFO_HTTP_CODE);
+            $strContentType = @curl_getinfo($objCurl, CURLINFO_CONTENT_TYPE);
             curl_close($objCurl);
-            $result = ['data' => $rawData, 'http_code' => $intHttpCode];
+            $result = [
+                'data'         => $rawData,
+                'http_code'    => $intHttpCode,
+                'content_type' => $strContentType
+            ];
             if ($jsonDecode) {
                 $result['json'] = @json_decode($rawData, $decoAsArray);
             }
